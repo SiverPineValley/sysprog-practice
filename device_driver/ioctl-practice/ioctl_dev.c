@@ -5,6 +5,7 @@
 #include <linux/slab.h>
 #include <linux/module.h>
 #include <linux/semaphore.h>
+#include <linux/delay.h>
 
 #define IOCTL_MAGIC_NUMBER			'j'
 
@@ -15,19 +16,24 @@
 static int sum = 0;
 static int number = 0;
 
-struct semaphore sem;
+//struct semaphore sem;
+struct rw_semaphore rwsem;
 
 int sysprog_open(struct inode *inode, struct file *filep)
 {
 	printk(KERN_INFO "[SYSPROG] open function called\n");
-	down_interruptible(&sem);
+	
+	// printk("Holding Semaphore\n");
+	// down_interruptible(&sem);
 	return 0;
 }
 
 int sysprog_release(struct inode *inode, struct file *filp)
 {
 	printk(KERN_INFO "[SYSPROG] release function called\n");
-	up(&sem);
+	
+	// prink("Releasing Semaphore\n");
+	// up(&sem);
 	return 0;
 }
 
@@ -43,11 +49,17 @@ long sysprog_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 		break;
 
 	case IOCTL_CMD_READ:
+		down_read(&rwsem);
 		copy_to_user((void*)arg, &number, 4);
+		
+		ssleep(10);
+		up_read(&rwsem);
 		break;
 
 	case IOCTL_CMD_WRITE:
+		down_write(&rwsem);
 		copy_from_user(&number,(const void*)arg, 4);
+		up_write(&rwsem);
 		break;
 	}
 
@@ -67,7 +79,8 @@ int __init sysprog_device_init(void)
 	else
 		printk(KERN_INFO "[SYSPROG] driver init successful\n");
 	
-	sema_init(&sem, 1);
+	// sema_init(&sem, 1);
+	init_rwsem(&rwsem);
 	return 0;
 }
 
