@@ -22,9 +22,9 @@ int sysprog_device_release(struct inode *inode, struct file *filp)
 
 ssize_t sysprog_device_write(struct file *filp, const char *buf, size_t count, loff_t *f_pos)
 {
+	int temp = 0;
 	printk(KERN_ALERT "sysprog_device write function called\n");
 	copy_from_user(buffer, buf, 1024);
-	int temp = 0;
 	kstrtoint(buffer,10,&temp);
 	accum += temp;
 	printk(KERN_ALERT "[sysprog] Write the number: %d\n",temp);
@@ -50,7 +50,7 @@ static struct file_operations sys_fops = {
 
 int __init sysprog_device_init(void)
 {
-	if(register_chrdev(240, "sysprog_device", &sys_fops) < 0 )
+	if(register_chrdev(255, "sysprog_device", &sys_fops) < 0 )
 		printk(KERN_ALERT "[sysprog] driver init failed\n");
 	else
 		printk(KERN_ALERT "[sysprog] driver init successful\n");
@@ -62,7 +62,7 @@ int __init sysprog_device_init(void)
 
 void __exit sysprog_device_exit(void)
 {
-	unregister_chrdev(240, "sysprog_device");
+	unregister_chrdev(255, "sysprog_device");
 	printk(KERN_ALERT "[sysprog] driver cleanup\n");
 	kfree(buffer);
 }
