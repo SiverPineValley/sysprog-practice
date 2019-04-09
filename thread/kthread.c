@@ -5,8 +5,10 @@
 
 static struct task_struct *thr1, *thr2;
 
+// Thread 선언
 int thread_function(void *arg)
 {
+	// 반환값이 1이 될때까지 반복
 	char *thr_name = (char*) arg;
 	while(!kthread_should_stop())
 	{
@@ -21,7 +23,8 @@ int thread_function(void *arg)
 int __init thread_init (void)
 {
 	printk("Init thread test\n");
-
+	
+	// Thread 함수를 콜백으로 넘겨준다.
 	thr1 = kthread_create(thread_function, "Worker 1", "thread1");
 	if(thr1)
 	{
@@ -40,6 +43,7 @@ int __init thread_init (void)
 
 void __exit thread_exit (void)
 {
+	// thread가 exit될 때 함수를 멈춘다.
 	if(kthread_stop(thr1) != EINTR)
 		printk("Thread 1 Stopped Successfully\n");
 	if(kthread_stop(thr2) != EINTR)
