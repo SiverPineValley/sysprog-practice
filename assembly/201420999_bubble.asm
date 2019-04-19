@@ -1,0 +1,63 @@
+INPUT	RD		STDIN				// 5개의 숫자 입력
+		COMP	SEP
+		JEQ		TSAVE
+		COMP	ETR
+		JEQ		TSAVE
+		COMP	#69
+		JEQ		CEND
+		JSUB	CKBYTE
+		SUB		#48
+		ADD		TEMP
+		MUL		#10
+		STA		TEMP
+		CLEAR	A
+		J		INPUT
+
+TSAVE	LDA		TEMP				// 수 저장
+		DIV		#10
+		STA		ARY,X
+		LDA		WRD
+		ADDR	A,X
+		CLEAR	A
+		STA		IXA
+		STA		TEMP
+		J		INPUT
+
+CKBYTE	RMO		A,S					// 각 수의 자리 확인
+		CLEAR	A
+		LDA		IXA
+		COMP	#5
+		JEQ		TSAVE
+		ADD		#1
+		STA		IXA
+		CLEAR	A
+		RMO		S,A
+		CLEAR	S
+		RSUB
+
+CEND	LDX		#0
+		STCH	BUFFER,X
+SLOOP	LDA		#1		
+		ADDR	A,X
+		CLEAR	A
+		RD		STDIN
+		COMP	ETR
+		JEQ		INPUT
+		STCH	BUFFER,X
+		J		SLOOP
+
+PRINT	TD		STDOUT
+		JEQ		PRINT
+		WD		STDOUT
+
+STDIN	BYTE	0					// STDIN Constance
+STDOUT	BYTE	1					// STDOUT Constance
+ENTER 	WORD	1					// PRINT Constance
+SEP		WORD	32					// Input Separation
+ETR		WORD	10					// Enter
+WRD		WORD	3					// Separate Word
+EOF		BYTE	C'EOF'				// End of Input Constance
+IXA		WORD	0
+ARY		RESW	8
+TEMP	WORD	0
+BUFFER	RESB	3
