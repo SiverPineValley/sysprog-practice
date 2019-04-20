@@ -1,4 +1,8 @@
-ST		START	0
+SORT	START	0
+		J		INPUT
+EINPUT	J		BUBBLE
+ESORT	END		SORT
+	
 INPUT	RD		STDIN				// 5개의 숫자 입력
 		COMP	SEP
 		JEQ		TSAVE
@@ -46,11 +50,11 @@ SLOOP	LDA		#1
 		CLEAR	A
 		RD		STDIN
 		COMP	ETR
-		JEQ		STATE
+		JEQ		EINPUT
 		STCH	BUFFER,X
 		J		SLOOP
 
-STATE	CLEAR	X
+STATE	CLEAR	X						// 출력
 STLOOP	LDA		ARY,X
 		J		PRINTS
 STLOOT	LDA		#3
@@ -130,11 +134,57 @@ PRINTB	STA		IXA
 		LDA		IXA
 		J		STLOOJ
 
-PRINTE	STA		ETR
+PRINTE	LDA		#14
 		TD		STDOUT
 		JEQ		PRINTE
 		WD		STDOUT
-		J		INPUT
+		LDA		#10
+PRINTET	TD		STDOUT
+		JEQ		PRINTET
+		WD		STDOUT		
+		RSUB
+
+BUBBLE	LDA		IXB
+		SUB		#1
+		STA		IXD
+BLOOP	COMP	#0					// IXD == 0이면, SORT 끝
+		JEQ		RET
+		CLEAR	S
+SOLOOP	COMPR	A,S					// S는 현재 index. A는 IXD.
+		JEQ		EES
+		CLEAR	A					// A에 현 ARY 불러와서 T에 저장. 
+		ADDR	S,A
+		MUL		#3
+		RMO		A,X
+		LDT		ARY,X
+		LDA		#3					// A에는 다음 ARY를 불러온다.
+		ADDR	A,X
+		LDA		ARY,X
+		COMPR	A,T					// 비교
+		JLT		TISB				// T(현재 값)이 더 클 때
+		J		AISB
+TISB	STT		ARY,X
+		RMO		A,T
+		LDA		#3
+		SUBR	A,X
+		STT		ARY,X
+AISB	LDA		#1
+		ADDR	A,S
+		LDA		IXD
+		J		SOLOOP
+		
+EES		LDA		IXD					// 각 Sort의 State 마무리
+		SUB		#1
+		STA		IXD
+		CLEAR	T
+		CLEAR	A
+		CLEAR	X
+		JSUB	STATE
+		CLEAR	S
+		LDA		IXD
+		J		BLOOP
+
+RET		J		ESORT	
 
 STDIN	BYTE	0					// STDIN Constance
 STDOUT	BYTE	1					// STDOUT Constance
@@ -146,6 +196,7 @@ EOF		BYTE	C'EOF'				// End of Input Constance
 IXA		WORD	0
 IXB		WORD	0					// Num of Inputs
 IXC		WORD	0
+IXD		WORD	0					// End of Sort Array
 ARY		RESW	8
 TEMP	WORD	0
 BUFFER	RESB	3
