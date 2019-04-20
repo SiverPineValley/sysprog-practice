@@ -168,7 +168,7 @@ PRINTET	TD		STDOUT
 
 HEAP	LDA		IXB
 		STA		IXD
-		LDX		#1
+HEAPF	LDX		#1
 		CLEAR	A
 		CLEAR	S
 		CLEAR	B
@@ -219,6 +219,21 @@ BBHEAP	LDA		IXX
 		J		BHEAP							
 
 HEAPS	JSUB	STATE				// Start와 End 비교
+		LDA		IXD
+		SUB		#1
+		STA		IXD
+		COMP	#0
+		JEQ		RET
+		LDX		#0
+		LDT		ARY,X				// T : 0번째
+		MUL		#3
+		RMO		A,X
+		LDS		ARY,X				// S : 마지막
+		STT		ARY,X
+		LDX		#0
+		STS		ARY,X
+		JSUB	STATE
+		J		HEAPF
 
 RET		J		ESORT	
 
