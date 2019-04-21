@@ -56,6 +56,9 @@ CKBYTE	RMO		A,S					// 각 수의 자리 확인
 		RSUB
 
 CEND	LDX		#0
+		LDS		IXB
+		COMPR	X,S
+		JEQ		ERROR
 		RMO		A,B
 		LDCH	EOF,X
 		COMPR	A,B
