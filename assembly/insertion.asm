@@ -3,7 +3,7 @@ SORT	START	0
 EINPUT	J		INSERT
 ESORT	END		SORT
 	
-INPUT	RD		STDIN				// 5개의 숫자 입력
+INPUT	RD		STDIN				.5개의 숫자 입력
 		COMP	SEP
 		JEQ		TSAVE
 		COMP	ETR
@@ -28,7 +28,7 @@ CHECK	LDT		NUMFIR
 		CLEAR	T
 		J		ECHECK	
 
-TSAVE	LDA		TEMP				// 수 저장
+TSAVE	LDA		TEMP				.수 저장
 		DIV		#10
 		STA		ARY,X
 		LDA		WRD
@@ -43,7 +43,7 @@ TSAVE	LDA		TEMP				// 수 저장
 		STA		TEMP
 		J		INPUT
 
-CKBYTE	RMO		A,S					// 각 수의 자리 확인
+CKBYTE	RMO		A,S					.각 수의 자리 확인
 		CLEAR	A
 		LDA		IXA
 		COMP	#5
@@ -79,7 +79,7 @@ SLOOP	LDA		#1
 OKTWO	STCH	BUFFER,X
 		J		SLOOP
 
-STATE	CLEAR	X						// 출력
+STATE	CLEAR	X						.출력
 STLOOP	LDA		ARY,X
 		J		PRINTS
 STLOOT	LDA		#3
@@ -137,7 +137,7 @@ BEOUT	LDX		IXC
 		J		STLOOT
 
 PRINT	ADD		#48
-		TD		STDOUT				// 출력만 담당
+		TD		STDOUT				.출력만 담당
 		JEQ		PRINT
 		WD		STDOUT
 		SUB		#48
@@ -153,7 +153,7 @@ PRINTO	ADD		#48
 
 PRINTB	STA		IXA
 		LDA		SEP
-		TD		STDOUT				// 공백 출력
+		TD		STDOUT				.공백 출력
 		JEQ		PRINTB
 		WD		STDOUT
 		LDA		IXA
@@ -178,15 +178,15 @@ INSF	LDA		IXD
 		JEQ		RET
 		MUL		#3
 		RMO		A,X
-		LDB		ARY,X			// B: Pivot의 값
+		LDB		ARY,X			.B: Pivot의 값
 		DIV		#3
 		SUB		#1
-		RMO		A,S				// S: 하나씩 확인하는 용도.
+		RMO		A,S				.S: 하나씩 확인하는 용도.
 		MUL		#3
 		RMO		A,X
-		LDT		ARY,X			// T: 현재 확인할 값
+		LDT		ARY,X			.T: 현재 확인할 값
 INSL	COMPR	B,T
-		JGT		INSM			// Pivot이 더 크면 그 자리로 이동 시킴.
+		JGT		INSM			.Pivot이 더 크면 그 자리로 이동 시킴.
 		LDA		#1
 		SUBR	A,S
 		LDA		#0
@@ -239,18 +239,18 @@ BINST	JSUB	STATE
 
 RET		J		ESORT	
 
-STDIN	BYTE	0					// STDIN Constance
-STDOUT	BYTE	1					// STDOUT Constance
-ENTER 	WORD	1					// PRINT Constance
-SEP		WORD	32					// Input Separation
-ETR		WORD	10					// Enter
-WRD		WORD	3					// Separate Word
-EOF		BYTE	C'EOF'				// End of Input Constance
+STDIN	BYTE	0					.STDIN Constance
+STDOUT	BYTE	1					.STDOUT Constance
+ENTER 	WORD	1					.PRINT Constance
+SEP		WORD	32					.Input Separation
+ETR		WORD	10					.Enter
+WRD		WORD	3					.Separate Word
+EOF		BYTE	C'EOF'				.End of Input Constance
 ERR		BYTE	C'ERROR'
 IXA		WORD	0
-IXB		WORD	0					// Num of Inputs
+IXB		WORD	0					.Num of Inputs
 IXC		WORD	0
-IXD		WORD	1					// End of Sort Array
+IXD		WORD	1					.End of Sort Array
 IXE		WORD	0
 ARY		RESW	8
 TEMP	WORD	0

@@ -3,7 +3,7 @@ SORT	START	0
 EINPUT	J		HEAP
 ESORT	END		SORT
 	
-INPUT	RD		STDIN				// 5개의 숫자 입력
+INPUT	RD		STDIN				.5개의 숫자 입력
 		COMP	SEP
 		JEQ		TSAVE
 		COMP	ETR
@@ -28,7 +28,7 @@ CHECK	LDT		NUMFIR
 		CLEAR	T
 		J		ECHECK	
 
-TSAVE	LDA		TEMP				// 수 저장
+TSAVE	LDA		TEMP				.수 저장
 		DIV		#10
 		STA		ARY,X
 		LDA		WRD
@@ -43,7 +43,7 @@ TSAVE	LDA		TEMP				// 수 저장
 		STA		TEMP
 		J		INPUT
 
-CKBYTE	RMO		A,S					// 각 수의 자리 확인
+CKBYTE	RMO		A,S					.각 수의 자리 확인
 		CLEAR	A
 		LDA		IXA
 		COMP	#5
@@ -79,7 +79,7 @@ SLOOP	LDA		#1
 OKTWO	STCH	BUFFER,X
 		J		SLOOP
 
-STATE	CLEAR	X						// 출력
+STATE	CLEAR	X						.출력
 STLOOP	LDA		ARY,X
 		J		PRINTS
 STLOOT	LDA		#3
@@ -137,7 +137,7 @@ BEOUT	LDX		IXC
 		J		STLOOT
 
 PRINT	ADD		#48
-		TD		STDOUT				// 출력만 담당
+		TD		STDOUT				.출력만 담당
 		JEQ		PRINT
 		WD		STDOUT
 		SUB		#48
@@ -153,7 +153,7 @@ PRINTO	ADD		#48
 
 PRINTB	STA		IXA
 		LDA		SEP
-		TD		STDOUT				// 공백 출력
+		TD		STDOUT				.공백 출력
 		JEQ		PRINTB
 		WD		STDOUT
 		LDA		IXA
@@ -175,33 +175,33 @@ HEAPF	LDX		#1
 		CLEAR	A
 		CLEAR	S
 		CLEAR	B
-BHEAP	LDA		IXD					// Build Heap
+BHEAP	LDA		IXD					.Build Heap
 		COMPR	A,X
 		JEQ		HEAPS
 		STX		IXX
 		LDA		#3
 		MULR	A,X
-		LDT		ARY,X				// T = Arry[i] (Child)
+		LDT		ARY,X				.T = Arry[i] (Child)
 		STX		IXG
 		RMO		X,A
 		SUB		#3
 		DIV		#6
 		MUL		#3
 		RMO		A,X
-		LDA		ARY,X				// A = Arry[(i-1)/2] (Parent)
+		LDA		ARY,X				.A = Arry[(i-1)/2] (Parent)
 CHEAP	COMPR	A,T
-		JLT		SWAP				// T > A
+		JLT		SWAP				.T > A
 		LDA		IXX
 		ADD		#1
 		RMO		A,X
 		J		BHEAP
 		
-SWAP	STT		ARY,X				// Child -> Parent
+SWAP	STT		ARY,X				.Child -> Parent
 		STT		IXA
-		STX		IXF					// Parent Address
+		STX		IXF					.Parent Address
 		RMO		A,T
 		LDX		IXG
-		STT		ARY,X				// Parent -> Child
+		STT		ARY,X				.Parent -> Child
 		LDA		IXF
 		COMP	#0
 		JEQ		BBHEAP
@@ -221,17 +221,17 @@ BBHEAP	LDA		IXX
 		RMO		A,X
 		J		BHEAP							
 
-HEAPS	JSUB	STATE				// Start와 End 비교
+HEAPS	JSUB	STATE				.Start와 End 비교
 		LDA		IXD
 		SUB		#1
 		STA		IXD
 		COMP	#0
 		JEQ		RET
 		LDX		#0
-		LDT		ARY,X				// T : 0번째
+		LDT		ARY,X				.T : 0번째
 		MUL		#3
 		RMO		A,X
-		LDS		ARY,X				// S : 마지막
+		LDS		ARY,X				.S : 마지막
 		STT		ARY,X
 		LDX		#0
 		STS		ARY,X
@@ -240,18 +240,18 @@ HEAPS	JSUB	STATE				// Start와 End 비교
 
 RET		J		ESORT	
 
-STDIN	BYTE	0					// STDIN Constance
-STDOUT	BYTE	1					// STDOUT Constance
-ENTER 	WORD	1					// PRINT Constance
-SEP		WORD	32					// Input Separation
-ETR		WORD	10					// Enter
-WRD		WORD	3					// Separate Word
-EOF		BYTE	C'EOF'				// End of Input Constance
+STDIN	BYTE	0					.STDIN Constance
+STDOUT	BYTE	1					.STDOUT Constance
+ENTER 	WORD	1					.PRINT Constance
+SEP		WORD	32					.Input Separation
+ETR		WORD	10					.Enter
+WRD		WORD	3					.Separate Word
+EOF		BYTE	C'EOF'				.End of Input Constance
 ERR		BYTE	C'ERROR'
 IXA		WORD	0
-IXB		WORD	0					// Num of Inputs
+IXB		WORD	0					.Num of Inputs
 IXC		WORD	0
-IXD		WORD	0					// End of Sort Array
+IXD		WORD	0					.End of Sort Array
 IXE		WORD	0
 IXF		WORD	0
 IXG		WORD	0

@@ -3,7 +3,7 @@ SORT	START	0
 EINPUT	J		SELECT
 ESORT	END		SORT
 	
-INPUT	RD		STDIN				// 5개의 숫자 입력
+INPUT	RD		STDIN				.5개의 숫자 입력
 		COMP	SEP
 		JEQ		TSAVE
 		COMP	ETR
@@ -28,7 +28,7 @@ CHECK	LDT		NUMFIR
 		CLEAR	T
 		J		ECHECK	
 
-TSAVE	LDA		TEMP				// 수 저장
+TSAVE	LDA		TEMP				.수 저장
 		DIV		#10
 		STA		ARY,X
 		LDA		WRD
@@ -43,7 +43,7 @@ TSAVE	LDA		TEMP				// 수 저장
 		STA		TEMP
 		J		INPUT
 
-CKBYTE	RMO		A,S					// 각 수의 자리 확인
+CKBYTE	RMO		A,S					.각 수의 자리 확인
 		CLEAR	A
 		LDA		IXA
 		COMP	#5
@@ -79,7 +79,7 @@ SLOOP	LDA		#1
 OKTWO	STCH	BUFFER,X
 		J		SLOOP
 
-STATE	CLEAR	X						// 출력
+STATE	CLEAR	X						.출력
 STLOOP	LDA		ARY,X
 		J		PRINTS
 STLOOT	LDA		#3
@@ -137,7 +137,7 @@ BEOUT	LDX		IXC
 		J		STLOOT
 
 PRINT	ADD		#48
-		TD		STDOUT				// 출력만 담당
+		TD		STDOUT				.출력만 담당
 		JEQ		PRINT
 		WD		STDOUT
 		SUB		#48
@@ -153,7 +153,7 @@ PRINTO	ADD		#48
 
 PRINTB	STA		IXA
 		LDA		SEP
-		TD		STDOUT				// 공백 출력
+		TD		STDOUT				.공백 출력
 		JEQ		PRINTB
 		WD		STDOUT
 		LDA		IXA
@@ -171,12 +171,12 @@ PRINTET	TD		STDOUT
 
 SELECT	CLEAR	A
 		CLEAR	X
-		CLEAR	S					// Current Index
-		CLEAR	T					// Smallest Value
-		CLEAR	B					// Pivot Index
-		LDT		ARY,X				// IXD는 최소 값의 인덱스
+		CLEAR	S					.Current Index
+		CLEAR	T					.Smallest Value
+		CLEAR	B					.Pivot Index
+		LDT		ARY,X				.IXD는 최소 값의 인덱스
 		STT		IXE
-		LDA		#1					// IXE는 Pivot Value
+		LDA		#1					.IXE는 Pivot Value
 		ADDR	A,S
 SELF	LDA		IXB
 		COMPR	A,B
@@ -187,7 +187,7 @@ SELM	COMPR	A,S
 		MUL		#3
 		RMO		A,X
 		LDA		ARY,X
-		COMPR	A,T					// Smallest Comparison
+		COMPR	A,T					.Smallest Comparison
 		JLT		SELT
 SELMT	LDA		#1
 		ADDR	A,S
@@ -231,18 +231,18 @@ CONFIG	LDA		#1
 
 RET		J		ESORT	
 
-STDIN	BYTE	0					// STDIN Constance
-STDOUT	BYTE	1					// STDOUT Constance
-ENTER 	WORD	1					// PRINT Constance
-SEP		WORD	32					// Input Separation
-ETR		WORD	10					// Enter
-WRD		WORD	3					// Separate Word
-EOF		BYTE	C'EOF'				// End of Input Constance
+STDIN	BYTE	0					.STDIN Constance
+STDOUT	BYTE	1					.STDOUT Constance
+ENTER 	WORD	1					.PRINT Constance
+SEP		WORD	32					.Input Separation
+ETR		WORD	10					.Enter
+WRD		WORD	3					.Separate Word
+EOF		BYTE	C'EOF'				.End of Input Constance
 ERR		BYTE	C'ERROR'
 IXA		WORD	0
-IXB		WORD	0					// Num of Inputs
+IXB		WORD	0					.Num of Inputs
 IXC		WORD	0
-IXD		WORD	0					// End of Sort Array
+IXD		WORD	0					.End of Sort Array
 IXE		WORD	0
 TA		WORD	0
 TB		WORD	0
