@@ -3,7 +3,7 @@
 #include <linux/gpio.h>
 #include <linux/fs.h>
 
-#define A2 18
+#define A2 23
 
 #define LOW 0
 #define HIGH 1
