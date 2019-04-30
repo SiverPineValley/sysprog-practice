@@ -21,7 +21,8 @@ int main(int argc, char ** argv)
     {
         perror("Failed to open the device");
     }
-
+    
+    ioctl(fd_led, IOCTL_LED_OFF, 0);
     while(1)
     {
         ioctl(fd_but, IOCTL_BUTTON_REQ, &led);

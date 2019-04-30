@@ -1,6 +1,6 @@
 KERNELDIR = /lib/modules/4.14.98-v7+/build
 
-obj-m := led_mod.o
+obj-m := led_mod.o button_mod.o
 
 PWD := $(shell pwd)
 
