@@ -26,17 +26,20 @@ int main(int argc, char ** argv)
     while(1)
     {
         ioctl(fd_but, IOCTL_BUTTON_REQ, &led);
-        //if(led == 0) led = 1;
-        //else led = 0;
-
-        if(led == 1)
+        
+        if(led != prev)
         {
-            ioctl(fd_led, IOCTL_LED_OFF, 0);
-            prev = led;
-        }
-        else if(led == 0)
-        {
-            ioctl(fd_led, IOCTL_LED_ON, 0);
+            
+            if(led == 1)
+            {
+                ioctl(fd_led, IOCTL_LED_OFF, 0);
+                prev = led;
+            }
+            else if(led == 0)
+            {
+                ioctl(fd_led, IOCTL_LED_ON, 0);
+                prev = led;
+            }
             prev = led;
         }
     }
